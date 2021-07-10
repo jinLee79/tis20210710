@@ -12,8 +12,8 @@
         Babel 에 대해서 학습한다.
 
         Babel 이란 JS 컴파일러(=번역기)다.
-            ES6 를 ES5 로 바꾸어 주는
-            JSX 를 ES로 바꾸어 주는
+            ES2016 를 ES5 로 바꾸어 주는
+            JSX 를 ES5로 바꾸어 주는
 
         온라인 babel 컴파일러 : https://babeljs.io/repl/
 
@@ -32,7 +32,7 @@
     </div>
     <hr>
     <div id="output_es6">
-        <!-- Hello, ES6 -->
+        <!-- Hello, ES2016 -->
     </div>
 
 </body>
@@ -40,6 +40,29 @@
 </html>
 
 <!-- ES5 사용하기 -->
+<script type="text/javascript">
+    var name = 'abc';
+    var age = 10;
 
+    var getMessage = function (params) {
+        var output_es5 = document.getElementById('output_es5');
+        output_es5.innerText = 'Hello, ES5';
+    }
+    getMessage();
+</script>
 
-<!-- ES6 사용하기 -->
+<!-- ES2016 사용하기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">
+/* 자바스크립트로 컴파일러. ES2016-->ES5, JSX-->ES5 */
+</script>
+<script type="text/babel">
+    const name = 'abc';
+    let age = 10;
+
+    const getMessage = () => {
+        const output_es6 = document.getElementById('output_es6');
+        output_es6.innerText = "Hello, ES6";
+    };
+
+    getMessage();
+</script>
