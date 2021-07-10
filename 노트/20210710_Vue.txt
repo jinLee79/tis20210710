@@ -1,0 +1,23 @@
+Vue.js
+1. 인스턴스, 컴포넌트 만드는 법
+2. 변수를 만드는 방법 - 상태관리
+3. 화면처리 - 지시자
+4. url을 처리하는 방법 - 라우팅
+
+JS의 Object, Array, Function 에서 문제 발생 -> 상태관리 개념이 나오게 된 배경
+ 
+JS내장객체 <-> BOM(DOM) 브라우저 객체
+
+arr.splice : 복제 후 삭제 -> vue, react에서 변수 처리 시이것 사용.
+arr.slice : 원본을 삭제
+
+java가 class 기반이라면, js는 프로토타입 기반
+
+화면 렌더링 기법 (화면과 데이터의 바인딩)
+jQuery : MVP
+Spring : MVC => 화면을 만들어 놓고 데이터를 정해진 곳에 뿌리는 단방향 방식. 바인딩을 controller가 해주는 것.
+Vue : (일부분에 대해) MVVM => 데이터와 화면이 서로 영향 주는 양방향 방식
+Vuex : Flux
+
+
+
