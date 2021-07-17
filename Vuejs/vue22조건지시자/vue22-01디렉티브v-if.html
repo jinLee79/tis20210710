@@ -37,6 +37,8 @@
             The only differences are that v-show does not support the <template> syntax
             렌더링 안됨
             display:none; <--> display:block; 를 사용.
+            v-if = false는 태그를 아예 만들지 않는 것이고, v-show는 태그 존재하되, display:none 하는 것.
+            v-show는 보안상의 이유로 거의 안 씀.
 
         [참조] 페이지 104
 
@@ -79,9 +81,9 @@
         <span v-if="awesome">
             Now you see me
         </span>
-        <div v-else>
+        <span v-else>
             Now you don't
-        </div>
+        </span>
     </div>
 
     <h2>v-if/v-else-if/v-else 연습 4 : 실습</h2>
@@ -103,3 +105,63 @@
 </body>
 
 </html>
+
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery 플러그인 임포트 */</script>
+<script>
+new Vue({
+    /* edtmc^2w */
+    el: "#app1",
+    data: {
+        /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+        awesome : true,
+    },
+});
+
+new Vue({
+    /* edtmc^2w */
+    el: "#app2",
+    data: {
+        /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+        awesome : false,
+    },
+});
+
+new Vue({
+    /* edtmc^2w */
+    el: "#app3",
+    data: {
+        /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+        awesome : false,
+    },
+    //template: ``,
+    methods: {
+        /* 이벤트 핸들러 등록 */
+        clickBind : function (event) {
+            // this.$data.awesome = !this.$data.awesome;
+            this.$set(this.$data, "awesome", !this.$data.awesome);
+            }
+    },
+});
+
+new Vue({
+    /* edtmc^2w */
+    el: "#app5",
+    data: {
+        /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+        type : 0,
+    },
+    //template: ``,
+    methods: {
+        /* 이벤트 핸들러 등록 */
+        clickBind : function (event) {
+            this.$set( this.$data, "type", (this.$data.type+1)%4 );
+        }
+    },
+});
+</script>
