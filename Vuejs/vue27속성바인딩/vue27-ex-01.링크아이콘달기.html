@@ -85,19 +85,19 @@
     <div id="app">
         <h1>Adding Icons to Links</h1>
         <p>Here's a list of downloadable files:</p>
-        <ul class="icon-links">
-            <li><a v-on:click="clickLink" href="presentation.ppt">Presentation slides</a></li>
-            <li><a v-on:click="clickLink" href="video.mp4">Video of presentation</a></li>
-            <li><a v-on:click="clickLink" href="notes.pdf">Notes for presentation</a></li>
-            <li><a v-on:click="clickLink" href="icons.gif">GIF Icon sprite</a></li>
-            <li><a v-on:click="clickLink" href="icons.png">PNG Icon sprite</a></li>
-            <li><a v-on:click="clickLink" href="icons.jpg">PNG Icon sprite</a></li>
-            <li><a v-on:click="clickLink" href="fuyyu.ppt">Presentation slides</a></li>
-            <li><a v-on:click="clickLink" href="fyyuy.mp4">Video of presentation</a></li>
-            <li><a v-on:click="clickLink" href="uydyuflk.pdf">Notes for presentation</a></li>
-            <li><a v-on:click="clickLink" href="OIP.gif">GIF Icon sprite</a></li>
-            <li><a v-on:click="clickLink" href="ID7890IO.png">PNG Icon sprite</a></li>
-            <li><a v-on:click="clickLink" href="PFDY.jpg">PNG Icon sprite</a></li>
+        <ul class="icon-links" v-on:click="clickLink">
+            <li><a href="presentation.ppt">Presentation slides</a></li>
+            <li><a href="video.mp4">Video of presentation</a></li>
+            <li><a href="notes.pdf">Notes for presentation</a></li>
+            <li><a href="icons.gif">GIF Icon sprite</a></li>
+            <li><a href="icons.png">PNG Icon sprite</a></li>
+            <li><a href="icons.jpg">PNG Icon sprite</a></li>
+            <li><a href="fuyyu.ppt">Presentation slides</a></li>
+            <li><a href="fyyuy.mp4">Video of presentation</a></li>
+            <li><a href="uydyuflk.pdf">Notes for presentation</a></li>
+            <li><a href="OIP.gif">GIF Icon sprite</a></li>
+            <li><a href="ID7890IO.png">PNG Icon sprite</a></li>
+            <li><a href="PFDY.jpg">PNG Icon sprite</a></li>
         </ul>
     </div>
     <hr>
@@ -123,23 +123,25 @@
         methods: {
             /* 이벤트 핸들러 등록 */
             clickLink(event) {
-                // event.stopPropagation();
-                event.preventDefault();
-                const href = event.target.href;
-                const ext = href.substring(href.lastIndexOf(".")+1, href.length);
-                switch (ext) {
-                    case "ppt":
-                        event.target.className = "presentation";
-                        break;
-                    case "mp4":
-                        event.target.className = "video";
-                        break;
-                    case "pdf":
-                        event.target.className = "pdf";
-                        break;
-                    default:
-                        event.target.className = "image";
-                        break;
+                event.stopPropagation();  // ul태그 위로의 bubbling 취소.
+                event.preventDefault();  // a 태그의 리다이렉트를 취소.
+                if (event.target.tagName == "A") {  // bubbling 을 어떻게 처리할 것인가..? => 예제 29 참조
+                    const href = event.target.href;
+                    const ext = href.substring(href.lastIndexOf(".")+1, href.length);
+                    switch (ext) {
+                        case "ppt":
+                            event.target.className = "presentation";
+                            break;
+                        case "mp4":
+                            event.target.className = "video";
+                            break;
+                        case "pdf":
+                            event.target.className = "pdf";
+                            break;
+                        default:
+                            event.target.className = "image";
+                            break;
+                    }
                 }
             }
         },
