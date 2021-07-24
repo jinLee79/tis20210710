@@ -48,14 +48,100 @@
 
     <div id="app">
         <h2>컴포넌트 등록</h2>
-
+        <!-- propsdata 는 자식의 변수명, globalmsg1은 부모의 변수명. 부모의 값이 자식에게 전달된다 -->
         <global-component v-bind:propsdata="globalmsg1"></global-component>
         <global-component v-bind:propsdata="globalmsg2"></global-component>
         <hr>
         <local-component v-bind:localmsg="localmsg1"></local-component>
         <local-component v-bind:localmsg="localmsg2"></local-component>
     </div>
-
+    
 </body>
 
 </html>
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery 플러그인 임포트 */</script>
+<script>
+
+    Vue.component ( "GlobalComponent", {
+        /* pdtmc^2w */
+        // Vue.js에서 부모-자식 컴포넌트 관계는 props는 아래로, events 위로
+        // 부모는 props를 통해 자식에게 데이터를 전달하고 자식은 events를 통해 부모에게 메시지를 보냄
+        props : [ 'propsdata' ],
+        data : function() {   // data 는 반드시 함수
+            /* 컴포넌트 안에서 사용되는 변수 등록. 개별 변수 */
+            return {
+            }
+        },
+        template : `
+        <div>
+            전역 컴포넌트
+            <button v-on:click="gclick">
+                {{propsdata}}
+            </button>
+        </div>
+        `,
+        methods : {
+            /* 이벤트 핸들러 등록 */
+            gclick () {
+                console.log(event.target);
+                alert ( event.target.innerHTML );
+            }
+        }
+    })
+
+    var LocalComponent = {
+        /* pdtmc^2w */
+        props: [ 'localmsg' ] ,
+        data: function() {
+            /* 컴포넌트 안에서 사용되는 변수 등록. 개별 변수 */
+            return {
+
+            }
+        },
+        template: `
+            <div>
+                지역 컴포넌트가 등록되었습니다!
+                <span style="border: 1px dashed blue; background-color:lightgray; padding: 5px;"
+                    v-on:click="lclick">
+                    {{localmsg}}
+                </span>
+            </div>
+        `,
+        methods: {
+            /* 이벤트 핸들러 등록 */
+            lclick () {
+                console.log(event.target);
+                alert ( event.target.innerHTML );
+            }
+        },
+        components: {
+            /* 지역 컴포넌트 등록. 예시) "태그명" : 컴포넌트명 */
+
+        },
+    };
+
+    new Vue({
+        /* edtmc^2w */
+        el: "#app",
+        data: {
+            /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+            globalmsg1 : "인스턴스에서 전역 컴포넌트로 넘겨진 메시지1",
+            globalmsg2 : "인스턴스에서 전역 컴포넌트로 넘겨진 메시지2",
+            localmsg1 : "인스턴스에서 지역 컴포넌트로 넘겨진 메시지1",
+            localmsg2 : "인스턴스에서 지역 컴포넌트로 넘겨진 메시지2",
+        },
+        //template: ``,
+        components: {
+            /* 전역 컴포넌트는 등록하지 않아도 사용할 수 있다 */
+            /* 지역 컴포넌트 등록. 예시) "태그명" : 컴포넌트명 */
+            "local-component" : LocalComponent
+        },
+    });
+
+</script>
