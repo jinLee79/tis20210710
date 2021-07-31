@@ -235,11 +235,51 @@
     <div id="app">
 
         <!-- TodoHeader -->
+        <todo-header></todo-header>
+
+        <!-- TodoInput --> <!--자식이벤트명=부모이벤트명 순서-->
+        <todo-input v-on:add-todo="addTodo"></todo-input>
+
+        <!-- TodoList -->
+        <todo-list v-bind:todo-items="todoItems"
+                      v-on:done-toggle="doneToggle"
+                      v-on:remove-todo="removeTodo"></todo-list> <!-- 부모 데이터를 자식 컴포넌트가 받는 코드를 v-bind/v-on으로 작성 -->
+
+        <!-- TodoFooter -->
+        <todo-footer></todo-footer>
+
+    </div>
+</body>
+</html>
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery 플러그인 임포트 */</script>
+<script>
+
+    var TodoHeader = {
+        /* pdtmc^2w */
+        template: `
         <header>
             <h1>TODO it!</h1>
         </header>
+        `,
+    };
 
-        <!-- TodoInput -->
+    var TodoInput = {
+        /* pdtmc^2w */
+        props: [ ] ,
+        data: function() {
+            /* 컴포넌트 안에서 사용되는 변수 등록. 개별 변수 */
+            return {
+                newTodoItem : null,
+                showModal : false,
+            }
+        },
+        template: `
         <div class="inputBox shadow">
             <input type="text"
                 placeholder="Type what you have to do"
@@ -266,8 +306,47 @@
                 </div>
             </div>
         </div>
+        `,
+        methods: {
+            /* 이벤트 핸들러 등록 + 일반 함수 */
+            addTodo(event) {
+                console.log(event.target);
+                // 부모 인스턴스에게 newTodoItem을 보낸다
+                // this.$emit( "자식이벤트명", 값 ). 이 때 위쪽 HTML에서 동일한 이벤트명 사용해야하는데, HTML은 대소문자 구문을 하지 않으므로 kebap case 사용.
+                this.$emit( "add-todo", this.$data.newTodoItem);  // HTML에는 이벤트명만 명시하며, param은 순서대로 들어간다
+            }
+        },
+        components: {
+            /* 전역 컴포넌트는 등록하지 않는다. */
+            /* 지역 컴포넌트나 파일 컴포넌트이면 등록해야 한다 . 예시) "태그명" : 컴포넌트명 */
 
-        <!-- TodoList -->
+        },
+        computed: {
+            /* 자동처리 + 동기식. 메서드로 작성. return 필수. */
+
+        },
+        watch: {
+            /* 자동처리 + 비동기식. data 에 등록된 프로퍼티(변수) 모니터링. 메서드로 작성. 매개변수 필수. 외부 api 호출을 위해서 사용  */
+
+        },
+        mounted: function() {
+            console.log("mounted");
+        },
+        updated: function() {
+            console.log("updated");
+        },
+    };
+
+    var TodoList = {
+        /* pdtmc^2w */
+        props: [ "todoItems" ] ,
+        data: function() {
+            /* 컴포넌트 안에서 사용되는 변수 등록. 개별 변수 */
+            return {
+
+            }
+        },
+        template: `
         <section>
             <transition-group name="list" tag="ul">
                 <li v-for="(todoItem, index) in todoItems"
@@ -284,16 +363,155 @@
                 </li>
             </transition-group>
         </section>
+        `,
+        methods: {
+            /* 이벤트 핸들러 등록 + 일반 함수 */
+            checked (done) {
+                if (done)
+                    return "checked";
+                else
+                    return null;
+            },
+            doneToggle(id, index) {
+                console.log(event.target);
+                // 부모에게 보내기
+                this.$emit( "done-toggle", id, index);
+            },
+            removeTodo(id, index) {
+                console.log(event.target);
+                // 부모에게 보내기
+                this.$emit( "remove-todo", id, index);
+            },
+        },
+        components: {
+            /* 전역 컴포넌트는 등록하지 않는다. */
+            /* 지역 컴포넌트나 파일 컴포넌트이면 등록해야 한다 . 예시) "태그명" : 컴포넌트명 */
 
-        <!-- TodoFooter -->
+        },
+        computed: {
+            /* 자동처리 + 동기식. 메서드로 작성. return 필수. */
+
+        },
+        watch: {
+            /* 자동처리 + 비동기식. data 에 등록된 프로퍼티(변수) 모니터링. 메서드로 작성. 매개변수 필수. 외부 api 호출을 위해서 사용  */
+
+        },
+        mounted: function() {
+            console.log("mounted");
+        },
+        updated: function() {
+            console.log("updated");
+        },
+    };
+
+    var TodoFooter = {
+        /* pdtmc^2w */
+        props: [] ,
+        data: function() {
+            /* 컴포넌트 안에서 사용되는 변수 등록. 개별 변수 */
+            return {
+
+            }
+        },
+        template: `
         <div class="clearAllContainer">
             <span class="clearAllBtn" v-on:click="clearAll">Clear All</span>
         </div>
+        `,
+        methods: {
+            /* 이벤트 핸들러 등록 + 일반 함수 */
+            clearAll() {
+                console.log(event.target);
+            }
+        },
+    };
 
-    </div>
+    new Vue({
+        /* edtmc^2w */
+        el: "#app",
+        data: {
+            /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+            todoItems : [
+                { id: 1, todo: "영화보기", done: false },
+                { id: 2, todo: "주말 산책", done: true },
+                { id: 3, todo: "ES6 학습", done: false },
+                { id: 4, todo: "잠실 야구장", done: false } ],
+        },
+        //template: ``,
+        methods: {
+            /* 이벤트 핸들러 등록 */
+            addTodo (newTodoItem) {
+                console.log(event.target);  // TodoInput의 Button 정보
 
-    
+                if( newTodoItem && newTodoItem.trim() !== "" ){
+                    let maxId = 0;
+                    if ( this.$data.todoItems.length > 0 ) {
+                        maxId = this.$data.todoItems.reduce((prevObj, curObj, index, arr) => {
+                            return Math.max(curObj.id);  // index를 사용하면 원치 않게 작동할 가능성. 반드시 고유한 id값을 만들어서 사용한다.
+                        });
+                    }
+                    const newTodo = {
+                        id : maxId+1,   // id는 1부터 시작
+                        todo : newTodoItem,
+                        done : false,
+                    };
+                    // this.$data.todoItems.push(newTodo);
+                    this.$data.todoItems[ this.$data.todoItems.length ] =  newTodo;
 
-</body>
+                    // add 후에 input태그의 입력값 지우기
+                    this.$data.newTodoItem = "";
+                }
+            },
+            doneToggle (id, index) {
+                debugger;
+                // 방법1. index 로 찾기
+                // this.$set(this.$data.todoItems[index], "done" , !this.$data.todoItems[index].done) ;
 
-</html>
+                // 방법2. id 로 찾기
+                // 배열 depth가 깊어질수록 index로 찾기 어려우므로 직접 배열객체를 조작하면 오류날 가능성 높음.
+                // 복제 후 재할당 원칙! => 라이브러리..?
+                const indexFind = this.$data.todoItems.findIndex( (item, index, arr) => {
+                    return item.id === id;
+                });
+                const obj = {
+                    ...this.$data.todoItems[indexFind],
+                    done : !this.$data.todoItems[indexFind].done,
+                };
+                // console.log(1, obj);
+                this.$set(this.$data.todoItems, indexFind, obj);
+            },
+            removeTodo (id, index) {
+                // 복제 후 재할당 필요
+                this.$data.todoItems.splice(index, 1);
+
+                // 부모로 bubbling 되지 않게 하기 위해 이벤트 취소 : stop 키워드를 넣어준다
+                // => v-on:click.stop="removeTodo(todoItem.id, index)"
+            },
+            clearAll () {
+                this.$set(this.$data, "todoItems", []);
+            }
+        },
+        components: {
+            /* 지역 컴포넌트 등록. 예시) "태그명" : 컴포넌트명 */
+            "todo-header": TodoHeader,
+            "todo-input" : TodoInput,
+            "todo-list" : TodoList,
+            "todo-footer" : TodoFooter
+        },
+        computed: {
+            /* 자동처리 + 동기식. 메서드로 작성. return 필수. */
+
+        },
+        watch: {
+            /* 자동처리 + 비동기식. data 에 등록된 프로퍼티 모니터링. 메서드로 작성. 매개변수 입력 필수  */
+
+        },
+        mounted: function() {
+            console.log("mounted");
+        },
+        updated: function() {
+            console.log("updated");
+        },
+    });
+
+</script>
