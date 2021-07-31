@@ -246,7 +246,7 @@
                       v-on:remove-todo="removeTodo"></todo-list> <!-- 부모 데이터를 자식 컴포넌트가 받는 코드를 v-bind/v-on으로 작성 -->
 
         <!-- TodoFooter -->
-        <todo-footer></todo-footer>
+        <todo-footer v-on:clear-all="clearAll"></todo-footer>
 
     </div>
 </body>
@@ -314,6 +314,10 @@
                 // 부모 인스턴스에게 newTodoItem을 보낸다
                 // this.$emit( "자식이벤트명", 값 ). 이 때 위쪽 HTML에서 동일한 이벤트명 사용해야하는데, HTML은 대소문자 구문을 하지 않으므로 kebap case 사용.
                 this.$emit( "add-todo", this.$data.newTodoItem);  // HTML에는 이벤트명만 명시하며, param은 순서대로 들어간다
+
+                // add 후에 input태그의 입력값 지우기
+                // this.$data.newTodoItem = "";
+                this.$set(this.$data, "newTodoItem", "");
             }
         },
         components: {
@@ -357,7 +361,7 @@
                     {{ todoItem.todo }}
                     <span class="removeBtn"
                           type="button"
-                          v-on:click="removeTodo(todoItem.id, index)">
+                          v-on:click.stop="removeTodo(todoItem.id, index)">
                         <i class="far fa-trash-alt" aria-hidden="true"></i>
                     </span>
                 </li>
@@ -422,6 +426,7 @@
             /* 이벤트 핸들러 등록 + 일반 함수 */
             clearAll() {
                 console.log(event.target);
+                this.$emit("clear-all")
             }
         },
     };
@@ -442,7 +447,7 @@
             /* 이벤트 핸들러 등록 */
             addTodo (newTodoItem) {
                 console.log(event.target);  // TodoInput의 Button 정보
-
+                // debugger;
                 if( newTodoItem && newTodoItem.trim() !== "" ){
                     let maxId = 0;
                     if ( this.$data.todoItems.length > 0 ) {
@@ -456,14 +461,15 @@
                         done : false,
                     };
                     // this.$data.todoItems.push(newTodo);
-                    this.$data.todoItems[ this.$data.todoItems.length ] =  newTodo;
-
-                    // add 후에 input태그의 입력값 지우기
-                    this.$data.newTodoItem = "";
+                    // this.$data.todoItems[ this.$data.todoItems.length ] =  newTodo;  // 안 먹음
+                    this.$set(this.$data.todoItems, this.$data.todoItems.length, newTodo);
+                }
+                else {
+                    this.$data.showModal = !this.$data.showModal;
                 }
             },
             doneToggle (id, index) {
-                debugger;
+
                 // 방법1. index 로 찾기
                 // this.$set(this.$data.todoItems[index], "done" , !this.$data.todoItems[index].done) ;
 
@@ -488,6 +494,7 @@
                 // => v-on:click.stop="removeTodo(todoItem.id, index)"
             },
             clearAll () {
+                console.log(event);  // 원래 window.event.target
                 this.$set(this.$data, "todoItems", []);
             }
         },
