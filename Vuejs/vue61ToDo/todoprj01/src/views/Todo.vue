@@ -35,6 +35,7 @@ button {
     </div>
 </template>
 <script>
+import Store from "../store/index";  // var store = new Vuex.Store();
 import TodoHeader from "../components/todo/TodoHeader.vue";
 import TodoInput from "../components/todo/TodoInput.vue";
 import TodoList from "../components/todo/TodoList.vue";
