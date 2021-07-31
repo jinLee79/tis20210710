@@ -110,12 +110,17 @@
     // Vuex 인스턴스 만들기
     var store = new Vuex.Store({
         actions: {
-            /* 왜 actions를 사용하나? 비동기로 외부 함수 호출 처리 위해서
+            /* 왜 actions를 사용하나? 비동기로 외부 함수 호출 처리 위해서 (axios)
                 * actions 에는 메서드만 등록 가능하다.
                 * 첫번째인자: 무조건 mutations로 지정.
                 * 두번째인자: 값. store.dispatch()호출시 넘겨지는 값이다.
                 */
-
+            increment : function (mutations, param) {
+                mutations.commit("increment", param);
+            },
+            decrement : function (mutations, param) {
+                mutations.commit("decrement", param);
+            },
         },
         mutations: {
             /* 왜 mutations 를 사용하나? state 를 바꾸기 위해서
@@ -123,7 +128,12 @@
             * 첫번째인자: 무조건 state로 지정.
             * 두번째인자: 값. mutations.commit() 호출시 넘겨지는 값이다.
             * */
-
+            increment : function (state, param) {
+                state.counter = state.counter + param;
+            },
+            decrement : function (state, param) {
+                state.counter = state.counter - param;
+            },
         },
         state: {
             /* vue인스턴스나 컴포넌트의 data 프로퍼티에 해당 */
@@ -160,10 +170,16 @@
         methods: {
             /* 이벤트 핸들러 등록 */
             increment (event) {
-                this.$set(this.$data, "counter", this.$data.counter+1);
+                    // this.$set(this.$data, "counter", this.$data.counter+1);
+
+                // store의 actions을 호출
+                store.dispatch( "increment", 1 );
             },
             decrement (event) {
-                this.$set(this.$data, "counter", this.$data.counter-1);
+                // this.$set(this.$data, "counter", this.$data.counter-1);
+
+                 // store의 actions을 호출
+                 store.dispatch( "decrement", 1 );
             },
         },
         components: {
