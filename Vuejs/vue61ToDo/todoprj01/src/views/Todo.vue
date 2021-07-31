@@ -35,7 +35,7 @@ button {
     </div>
 </template>
 <script>
-import Store from "../store/index";  // var store = new Vuex.Store();
+import store from "../store/index";  // var store = new Vuex.Store();
 import TodoHeader from "../components/todo/TodoHeader.vue";
 import TodoInput from "../components/todo/TodoInput.vue";
 import TodoList from "../components/todo/TodoList.vue";
@@ -45,67 +45,28 @@ export default {
     /* pdtmc^2w */
     data: function () {
         return {
-            todoItems: [
-                { id: 1, todo: "영화보기", done: false },
-                { id: 2, todo: "주말 산책", done: true },
-                { id: 3, todo: "ES6 학습", done: false },
-                { id: 4, todo: "잠실 야구장", done: false }
-            ]
+            // store로 대체
+            // todoItems: [
+            //     { id: 1, todo: "영화보기", done: false },
+            //     { id: 2, todo: "주말 산책", done: true },
+            //     { id: 3, todo: "ES6 학습", done: false },
+            //     { id: 4, todo: "잠실 야구장", done: false }
+            // ]
         };
     },
  methods: {
             /* 이벤트 핸들러 등록 */
             addTodo (newTodoItem) {
-                // console.log(event.target);  // TodoInput의 Button 정보
-                // debugger;
-                if( newTodoItem && newTodoItem.trim() !== "" ){
-                    let maxId = 0;
-                    if ( this.$data.todoItems.length > 0 ) {
-                        maxId = this.$data.todoItems.reduce((curObj) => {
-                            return Math.max(curObj.id);  // index를 사용하면 원치 않게 작동할 가능성. 반드시 고유한 id값을 만들어서 사용한다.
-                        });
-                    }
-                    const newTodo = {
-                        id : maxId+1,   // id는 1부터 시작
-                        todo : newTodoItem,
-                        done : false,
-                    };
-                    // this.$data.todoItems.push(newTodo);
-                    // this.$data.todoItems[ this.$data.todoItems.length ] =  newTodo;  // 안 먹음
-                    this.$set(this.$data.todoItems, this.$data.todoItems.length, newTodo);
-                }
-                else {
-                    this.$data.showModal = !this.$data.showModal;
-                }
+                store.dispatch("addTodo", newTodoItem);
             },
             doneToggle (id) {
-
-                // 방법1. index 로 찾기
-                // this.$set(this.$data.todoItems[index], "done" , !this.$data.todoItems[index].done) ;
-
-                // 방법2. id 로 찾기
-                // 배열 depth가 깊어질수록 index로 찾기 어려우므로 직접 배열객체를 조작하면 오류날 가능성 높음.
-                // 복제 후 재할당 원칙! => 라이브러리..?
-                const indexFind = this.$data.todoItems.findIndex( (item) => {
-                    return item.id === id;
-                });
-                const obj = {
-                    ...this.$data.todoItems[indexFind],
-                    done : !this.$data.todoItems[indexFind].done,
-                };
-                // console.log(1, obj);
-                this.$set(this.$data.todoItems, indexFind, obj);
+                store.dispatch("doneToggle", id);
             },
             removeTodo (id, index) {
-                // 복제 후 재할당 필요
-                this.$data.todoItems.splice(index, 1);
-
-                // 부모로 bubbling 되지 않게 하기 위해 이벤트 취소 : stop 키워드를 넣어준다
-                // => v-on:click.stop="removeTodo(todoItem.id, index)"
+                store.dispatch("removeTodo", id, index);
             },
             clearAll () {
-                // console.log(event);  // 원래 window.event.target
-                this.$set(this.$data, "todoItems", []);
+                store.dispatch("clearAll");
             }
         },
         components: {
@@ -117,7 +78,9 @@ export default {
         },
         computed: {
             /* 자동처리 + 동기식. 메서드로 작성. return 필수. */
-
+            todoItems : function () {
+                return store.getters.todoItems;
+            }
         },
         watch: {
             /* 자동처리 + 비동기식. data 에 등록된 프로퍼티 모니터링. 메서드로 작성. 매개변수 입력 필수  */
