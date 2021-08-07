@@ -62,8 +62,8 @@ export default {
             doneToggle (id) {
                 store.dispatch("doneToggle", id);
             },
-            removeTodo (id, index) {
-                store.dispatch("removeTodo", id, index);
+            removeTodo (id) {
+                store.dispatch("removeTodo", id);
             },
             clearAll () {
                 store.dispatch("clearAll");

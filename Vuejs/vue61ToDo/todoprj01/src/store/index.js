@@ -55,6 +55,7 @@ export default new Vuex.Store({
             state.todoItems.push(newTodo);  // Vuex 사용 시 this.$set 사용X
         },
         doneToggle : function (state, id) {
+            // 참조 타입 변수이면 재할당(=== 깊은 복사) 필요.
             // debugger;
             // 복제 후 재할당 위해 map을 사용해 list를 전부 복사해야 한다
             const newItems = state.todoItems.map( (item) => {
@@ -68,8 +69,14 @@ export default new Vuex.Store({
             });
             state.todoItems = newItems;
         },
-        removeTodo : function (state, id, index) {
+        removeTodo : function (state, id) {
+            // debugger;
+            // 방법1 : findIndex() 함수로 index찾기
+            const index = state.todoItems.findIndex( (item) => (item.id === id) );
             state.todoItems.splice(index, 1);
+            // 방법2 : filter() 함수로 해당 id 제외한 나머지 값들로 새 배열 만들어주기
+            // const items = state.todoItems.filter((item) => (item.id !== id));
+            // state.todoItems = items;
         },
         clearAll : function (state) {
             state.todoItems = [];
