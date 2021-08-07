@@ -12,6 +12,8 @@
 
 <body>
     <xmp>
+        JSX에서는 "한개의 root태그(one parent element)만 사용할 수 있다"
+
         HelloWorld 컴포넌트를 만들고
         props를 사용하여 인자를 넘겨 받는 방법을 복습한다.
         아래 "실행 화면 예시"의 숫자 부분에 this.props 를 사용.
@@ -38,3 +40,79 @@
 </body>
 
 </html>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">
+    /* 자바스크립트로 컴파일러. ES6-->ES5, JSX-->ES5 */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.12.0/umd/react.development.js">
+    /* import React, { Component, PureComponent } from "react" */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.11.0/umd/react-dom.development.js">
+    /* import ReactDOM from "react-dom" */
+</script>
+
+<script type="text/babel">
+    //import React, {Component, PureComponent, Fragment} from "react";
+    //import Redux from "redux";
+    //import ReactRedux, {Provider} from "react-redux";
+    //import {BrowserRouter,Switch,Router,Route,IndexRoute,Link,IndexLink,NavLink} from "react-router-dom";
+    //import ReactDOM from "react-dom";
+
+    console.log(React);
+
+    // presentation component
+    class HelloWorld extends React.Component {
+        render() { // JSX로 화면 만들기
+            return (
+                <div>
+                    Hello, react world!!! {this.props.index} - component
+                </div>
+            )
+        }
+    };
+    //export default HelloWorld;
+
+    class HelloContainer extends React.Component {
+        state = {
+            arr : [1,2,3,4]
+        }
+        render() { // JSX로 화면 만들기
+            // return (
+                // 방법1: 감싸는 태그 하나 만들기
+                // <div>
+                //     <HelloWorld index={1}></HelloWorld>
+                //     <HelloWorld index={2}></HelloWorld>
+                //     <HelloWorld index={3}></HelloWorld>
+                //     <HelloWorld index={4}></HelloWorld>
+                // </div>
+
+                // 방법2: React.Fragment 사용
+            //     <React.Fragment>
+            //         <HelloWorld index={1}></HelloWorld>
+            //         <HelloWorld index={2}></HelloWorld>
+            //         <HelloWorld index={3}></HelloWorld>
+            //         <HelloWorld index={4}></HelloWorld>
+            //     </React.Fragment>
+            // )
+
+            // 방법3 : 반복문 사용
+            // const arr = [1,2,3,4];
+            const helloworlds = this.state.arr.map( (value, index, values) => {
+                return <HelloWorld key={index} index={value}></HelloWorld>   // 반복문 사용시 key 필수
+            });
+            console.log(helloworlds);
+
+            return (
+                <React.Fragment>
+                    {helloworlds}
+                </React.Fragment>
+            )
+        }
+    };
+
+    ReactDOM.render(
+        // container component를 만들기
+        <HelloContainer/>, document.getElementById("app")
+    )
+</script>
