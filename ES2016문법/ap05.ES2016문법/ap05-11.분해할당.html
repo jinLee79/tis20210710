@@ -17,3 +17,44 @@
     </xmp>
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">
+    /* 자바스크립트로 컴파일러. ES6-->ES5, JSX-->ES5 */
+</script>
+<script type="text/babel">
+
+    // 분해할당 : (배열 또는 객체를) 쪼개서 변수에 넣는다.
+    // 배열은 순서대로
+    const points = [10, 20, 30];
+    const x1 = points[0];
+    const y1 = points[1];
+    const z1 = points[2];
+
+    const [x2, y2, z2] = points;   // const [x2, y2, z2] = [10, 20, 30];
+    console.log(x2, y2, z2);
+
+    const [x3, y3] = points;   // const [x3, y3] = [10, 20, 30];
+    console.log(x3, y3);
+
+    const [x4, , z4] = points;   //const [x4, , z4] = [10, 20, 30];
+    console.log(x4, z4);
+
+    const [x5, , , w5] = points;  // const [x5, , , w5] = [10, 20, 30];
+    console.log(x5, w5);    // w5 변수는 만들어졌으나 값이 대입되지 않음 => undefined
+
+    // 객체는 key대로
+    const car = {
+        type : "MODEL T",
+        color : "RED",
+        model : 2017
+    }
+    const {type, color, model, gear} = car;
+    console.log(type, color, model, gear);
+
+    const func1 = function ({type, color, gear}) {
+        console.log("type", type);
+        console.log("color", color);
+        console.log("gear", gear);
+    }
+    func1 (car);
+
+</script>

@@ -12,18 +12,34 @@
         개선된 객체 프러퍼티 표현식
         개선된 객체 메서드 표현식
     </xmp>
-    
+
     <xmp>
     ES6 코드를 브라우저에서 실행하려면 babel 이 필요하다.
 
     < script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">/* ES5로 변환 */</script>
     < script type="text/babel">
-        // ES6 코딩 
+        // ES6 코딩
     </script>
     </xmp>
 </body>
 
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">
+    /* 자바스크립트로 컴파일러. ES6-->ES5, JSX-->ES5 */
+</script>
+<script type="text/babel">
+    const p1 = {
+        name,
+        age,
+        powerYell () {
+            let yell  = this.name.toUpperCase();
+            console.log(`${yell} ${yell} !!!`);
+        },
+        setAge(mph) {
+            this.age = mph;
+            console.log("나이", mph);
+        }
+    }
+</script>
 
 
-

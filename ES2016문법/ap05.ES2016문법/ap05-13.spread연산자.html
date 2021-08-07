@@ -40,3 +40,49 @@
 </body>
 
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">
+    /* 자바스크립트로 컴파일러. ES6-->ES5, JSX-->ES5 */
+</script>
+<script type="text/babel">
+
+    const cities = ["서울", "부산", "제주"];
+    console.log( cities[0], cities[1], cities[2] );
+    console.log(...cities);   // "서울", "부산", "제주"
+
+    const east = ["U", "K", "T"];
+    const west = ["N", "C", "G"];
+    const countries = [...east, ...west];  // ... : spread연산자를 활용해 새로운 배열 생성. concat()함수를 사용한 것과 동일 효과
+    console.log(countries);    //  ["U", "K", "T", "N", "C", "G"]
+    console.log(...countries);  //  U K T N C G
+
+    let lakes = ["경포호", "화진호", "송지호", "청초호"];
+    let [first, ...rest] = lakes;
+    console.log(first);  // "경포호"
+    console.log(rest);  // ["화진호", "송지호", "청초호"] : 배열
+
+    let [city1, ...cityrest] = [...east, ...west];
+    // ...cityrest : rest연산자,  [...east, ...west] : spread연산자
+    console.log(city1);      // U
+    console.log(cityrest);   // ["K", "T", "N", "C", "G"] : 배열
+
+    const car1 = {
+        type : "t1",
+        color : "s1",
+        model : 2017
+    }
+
+    const car2 = {
+        type : "t2",
+        color : "s2",
+        model : 2019
+    }
+
+    const {type} = car1;
+    console.log(type);
+
+    const func = function ( {type} ) {
+        console.log(type);
+    }
+
+    func( {...car1, ...car2} );  // 이 경우 type에 car1 대입되었다가 car2 다시 대입되므로 최종적으로 car2의 type이 출력된다.
+</script>
