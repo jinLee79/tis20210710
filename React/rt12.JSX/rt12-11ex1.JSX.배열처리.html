@@ -27,5 +27,44 @@
 
     <div id="app"></div>
 </body>
-
 </html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">
+    /* 자바스크립트로 컴파일러. ES6-->ES5, JSX-->ES5 */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.12.0/umd/react.development.js">
+    /* import React, { Component, PureComponent } from "react" */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.11.0/umd/react-dom.development.js">
+    /* import ReactDOM from "react-dom" */
+</script>
+<script type="text/babel">
+    const todoList = [
+            { taskName: "빨래하기", finished: false },
+            { taskName: "공부하기", finished: true },
+            { taskName: "게임하기", finished: true },
+    ]
+
+    class Todos extends React.Component {
+
+        render() { // JSX로 화면 만들기
+            return (
+                this.props.todoList &&
+                this.props.todoList.length > 0 &&
+                <div>
+                    <h3>오늘의 할 일 목록</h3>
+                    {this.props.todoList.map((item, index, arr) => {
+                        return item.finished ?
+                                (<li key={index}>{item.taskName} : 완료</li> ) :
+                                (<li key={index}>{item.taskName} : 미완료</li> ) ;
+                    }
+                    )}
+                </div>
+            )
+        }
+    };
+
+    ReactDOM.render(
+        <Todos todoList = {todoList}/>, document.getElementById("app")
+    )
+</script>
