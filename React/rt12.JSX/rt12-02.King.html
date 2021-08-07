@@ -51,11 +51,61 @@
     <hr>
 
     <div id="app">
-        <h3>세종대왕</h3>
-        <h3>이순신</h3>
-        <h3>광개토</h3>
-        <h3>왕건</h3>
 	</div>
 </body>
 
 </html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">
+    /* 자바스크립트로 컴파일러. ES6-->ES5, JSX-->ES5 */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.12.0/umd/react.development.js">
+    /* import React, { Component, PureComponent } from "react" */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.11.0/umd/react-dom.development.js">
+    /* import ReactDOM from "react-dom" */
+</script>
+
+<script type="text/babel">
+
+    console.log(React);
+
+    class King extends React.Component {
+        state = {
+
+        }
+         // {this.props.children} : 부모의 태그까지 받을 수 있음.
+        render() { // JSX로 화면 만들기
+            return (
+                <div>
+                    <h3>
+                        <li>{this.props.name}</li>
+                        <br/>
+                        {this.props.children}
+                    </h3>
+                </div>
+            )
+        }
+    };
+
+    class KingContainer extends React.Component {
+        state = {
+            kingArr : ["세종대왕", "이순신", "광개토대왕", "왕건"]
+        }
+        render() { // JSX로 화면 만들기
+            const kingList = this.state.kingArr.map((value, index) => {
+                const code = String.fromCharCode(index+97);
+                return (<King key={index} name={value}><span>{code}</span></King>);
+            })
+            return (
+                <div>
+                    {kingList}
+                </div>
+            )
+        }
+    };
+
+    ReactDOM.render(
+        <KingContainer/>, document.getElementById("app")
+    )
+</script>
