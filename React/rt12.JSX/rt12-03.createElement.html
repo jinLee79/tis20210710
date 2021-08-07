@@ -29,9 +29,7 @@
 
         JSX 를 사용하여 #wrap1 에 아래의 태그를 만드시오
         <h1 id="greeting">
-            <p>
-                Test!!!
-            </p>
+            Hello, React!
         </h1>
 
         React.createElement() 를 사용하여 #wrap2 에 아래의 태그를 만드시오
@@ -49,3 +47,44 @@
 </body>
 
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">
+    /* 자바스크립트로 컴파일러. ES6-->ES5, JSX-->ES5 */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.12.0/umd/react.development.js">
+    /* import React, { Component, PureComponent } from "react" */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.11.0/umd/react-dom.development.js">
+    /* import ReactDOM from "react-dom" */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js">
+    /*  import ReactRouterDOM, {BroswerRouter,Switch,Router,Route,IndexRoute,Link,IndexLink,NavLink} from "react-router-dom" */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.0/redux.js">
+    /* import Redux from "redux" */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.2.2/react-redux.js">
+    /*  import ReactRedux, {Provider} from "react-redux" */
+</script>
+<script src="https://unpkg.com/immer">
+    /* 불변객체 state를 조작하는 라이브러리 */
+    /* import immer from "immer" */
+</script>
+<script type="text/babel">
+
+    // jsx는 javascript이다. wrap1 같은 코드를 wrap2 같은 코드로 babel이 변환함. babel.io 온라인 컴파일러에서도 확인 가능.
+
+    ReactDOM.render(
+        <h1 id="greeting">
+            Hello, React!
+        </h1>
+        , document.getElementById("wrap1")
+    );
+
+    ReactDOM.render(
+        React.createElement ("h1",
+            {id : "greeting"},
+            React.createElement("p", null, "Test!!!")
+        )
+        , document.getElementById("wrap2")
+    );
+</script>
