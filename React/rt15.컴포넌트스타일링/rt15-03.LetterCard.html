@@ -124,11 +124,11 @@
             // bgColor, letter 가 자식인 LetterCard로 전달(상속)된다.
             return (
                 <div>
-                    <LetterCard bgcolor={"#58B3FF"} letter={"A"}></LetterCard>
-                    <LetterCard bgcolor={"#FF605F"} letter={"E"}></LetterCard>
-                    <LetterCard bgcolor={"#FFD52E"} letter={"I"}></LetterCard>
-                    <LetterCard bgcolor={"#49DD8E"} letter={"O"}></LetterCard>
-                    <LetterCard bgcolor={"#AE99FF"} letter={"U"}></LetterCard>
+                    <LetterCard bgcolor={"#58B3FF"} letter={"A"}> A </LetterCard>
+                    <LetterCard bgcolor={"#FF605F"} letter={"E"}> E </LetterCard>
+                    <LetterCard bgcolor={"#FFD52E"} letter={"I"}><span>I</span></LetterCard>
+                    <LetterCard bgcolor={"#49DD8E"} letter={"O"}>O</LetterCard>
+                    <LetterCard bgcolor={"#AE99FF"} letter={"U"}><span>U</span></LetterCard>
                 </div>
             )
         }
@@ -146,9 +146,16 @@
                 // style="background-color:#58B3FF;"
                 backgroundColor : bgcolor
             }
+            let lc = null;
+            if( this.props.children ) {
+                lc = this.props.children;
+            }
+            else {
+                lc = letter;
+            }
             return (
                 <div className="letter" style={style}>
-                    {letter}
+                    {lc}
                 </div>
             )
         }
